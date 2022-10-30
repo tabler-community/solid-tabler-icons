@@ -1,0 +1,32 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '30 4 * * *'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denolib/deno-action@0.19.0
+
+      - name: Download tabler-icons package.json
+        run: curl https://raw.githubusercontent.com/tabler/tabler-icons/master/package.json > tabler-package.json
+        
+      - name: Export versions
+        run: deno run --allow-read --allow-write build/export-versions.ts
+
+      - name: Run build script (if version has been updated)
+        if: hashFiles('tabler-version.txt') != hashFiles('this-version.txt')
+        run: bash build/script.sh
+
+      - name: Publish to npmjs.com (if version has been updated)
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
