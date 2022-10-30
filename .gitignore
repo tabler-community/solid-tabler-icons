@@ -1,5 +1,8 @@
 /node_modules
+/temp
 /dist
+/src/icons
+/src/index.*
 /package-lock.json
 /tabler-icons
 /tabler-package.json

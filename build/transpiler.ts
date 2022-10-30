@@ -4,6 +4,8 @@ import { pascalCase } from "https://deno.land/x/case@2.1.1/mod.ts";
 
 const flags = parse(Deno.args, {
 	string: ["dir"],
+	boolean: ["verbose"],
+	default: { verbose: false },
 });
 
 const outDir = normalizeGlob(flags.dir);
@@ -76,8 +78,8 @@ for (const fileName of toLines(input)) {
 	const fnName = fnLine.replace("function ", "").replace("({", "").trim();
 
 	if (fnName != iconName) {
-		console.error(
-			`error on file ${fileName}. icon names do not match. using ${fnName}`,
+		console.warn(
+			`warn on file ${fileName}. icon names do not match. using ${fnName}`,
 			{
 				fnName,
 				iconName,
@@ -88,7 +90,7 @@ for (const fileName of toLines(input)) {
 	const output = generateComponent(fnName, renameSvgAttr(svgLine.trim()));
 	const outFile = join(iconsDir, outFileName);
 	await Deno.writeTextFile(outFile, output);
-	console.info(fileName, ">", outFileName, ">", fnName);
+	if (flags.verbose) console.info(fileName, ">", outFileName, ">", fnName);
 
 	imports.push(`export { ${fnName} } from "./icons/${rawFileName}";`);
 }

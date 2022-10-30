@@ -17,6 +17,11 @@ jobs:
         uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+        
+      - name: Setup npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Download tabler-icons meta info from registry
         run: echo "{\"dist-tags\":{\"latest\":\"${{ inputs.version }}\"}}" > tabler-package.json
@@ -27,9 +32,13 @@ jobs:
       - name: Export versions
         run: deno run --allow-read --allow-write build/export-versions.ts
 
-      - name: Run build script (if version has been updated)
+      - name: Run transpiler (if version has been updated)
         if: hashFiles('tabler-version.txt') != hashFiles('this-version.txt')
         run: bash build/script.sh
+        
+      - name: Build package
+        if: hashFiles('tabler-version.txt') != hashFiles('this-version.txt')
+        run: npm i; npm run build
 
       - name: Publish to npmjs.com (if version has been updated)
         uses: JS-DevTools/npm-publish@v1

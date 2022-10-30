@@ -1,9 +1,14 @@
 /build
 /.github
 /.vscode
-/package-lock.json
 /tabler-icons
 /tabler-package.json
 /this-package.json
 /tabler-version.txt
 /this-version.txt
+/package-lock.json
+/temp
+/node_modules
+/src
+/rollup.config.js
+/tsconfig.json
