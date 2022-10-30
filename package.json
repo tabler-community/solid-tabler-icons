@@ -1,0 +1,25 @@
+{
+	"name": "solid-tabler-icons",
+	"version": "0.1.0",
+	"description": "SolidJS Components for Tabler Icons.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tabler-community/solid-tabler-icons.git"
+	},
+	"author": "christoph-jeanluc-schneider",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/tabler-community/solid-tabler-icons/issues"
+	},
+	"homepage": "https://github.com/tabler-community/solid-tabler-icons#readme",
+	"types": "./lib/index.d.ts",
+	"main": "./lib/index.js",
+	"peerDependencies": {
+		"solid-js": "^1.x"
+	},
+	"peerDependenciesMeta": {
+		"solid-js": {
+			"optional": true
+		}
+	}
+}
