@@ -29,7 +29,7 @@ echo "[STEP $(((i+=1)))/$n] cd back into 'lib'"
 cd ..
 
 echo "[STEP $(((i+=1)))/$n] change file extention to '.jsx' in 'index.js'"
-sed -i 's/.js/.jsx/g' index.js
+sed -i 's/\.js/\.jsx/g' index.js
 
 echo "[STEP $(((i+=1)))/$n] replace types in 'index.d.ts'"
 sed -i 's/react/solid-js/g' index.d.ts
