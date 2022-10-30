@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Deno
-        uses: denolib/deno-action@0.20.0
+      - name: Setup deno
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
       - name: Download tabler-icons package.json
         run: curl https://raw.githubusercontent.com/tabler/tabler-icons/master/package.json > tabler-package.json
