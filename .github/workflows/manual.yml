@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Overwrite version'
+        required: true 
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Download tabler-icons meta info from registry
+        run: echo "{\"dist-tags\":{\"latest\":\"${{ inputs.version }}\"}}" > tabler-package.json
+
+      - name: Download own meta info from registry
+        run: curl https://registry.npmjs.org/solid-tabler-icons > this-package.json
+        
+      - name: Export versions
+        run: deno run --allow-read --allow-write build/export-versions.ts
+
+      - name: Run build script (if version has been updated)
+        if: hashFiles('tabler-version.txt') != hashFiles('this-version.txt')
+        run: bash build/script.sh
+
+      - name: Publish to npmjs.com (if version has been updated)
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
