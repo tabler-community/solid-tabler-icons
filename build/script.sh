@@ -1,6 +1,6 @@
 #!/bin/sh
 i=0
-n=11
+n=9
 
 echo "[STEP $i/$n] cd to root of this repository"
 cd "$(dirname "$0")/.."
@@ -34,12 +34,3 @@ sed -i 's/SVGAttributes/JSX.SvgSVGAttributes/g' index.d.ts
 sed -i 's/FC/Component/g' index.d.ts
 sed -i 's/Component, JSX.SvgSVGAttributes/Component, JSX/g' index.d.ts
 sed -i 's/strokeWidth/stroke-width/g' index.d.ts
-
-echo "[STEP $(((i+=1)))/$n] cd back into '/'"
-cd ..
-
-echo "[STEP $(((i+=1)))/$n] update package version to match with tabler-icons"
-deno run --allow-read --allow-write build/script.ts
-
-echo "[STEP $(((i+=1)))/$n] remove unused files (./tabler-icons)"
-rm -rf tabler-icons

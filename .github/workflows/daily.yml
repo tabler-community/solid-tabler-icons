@@ -1,8 +1,5 @@
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
   schedule:
     - cron: '30 4 * * *'
 
@@ -18,8 +15,11 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Download tabler-icons package.json
-        run: curl https://raw.githubusercontent.com/tabler/tabler-icons/master/package.json > tabler-package.json
+      - name: Download tabler-icons meta info from registry
+        run: curl https://registry.npmjs.org/@tabler/icons > tabler-package.json
+
+      - name: Download own meta info from registry
+        run: curl https://registry.npmjs.org/solid-tabler-icons > this-package.json
         
       - name: Export versions
         run: deno run --allow-read --allow-write build/export-versions.ts

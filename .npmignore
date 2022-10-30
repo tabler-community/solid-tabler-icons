@@ -1,5 +1,7 @@
+/build
+/.github
+/.vscode
 /package-lock.json
-/lib
 /tabler-icons
 /tabler-package.json
 /this-package.json
