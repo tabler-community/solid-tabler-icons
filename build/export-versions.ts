@@ -2,11 +2,11 @@ import pckg from "../package.json" assert { type: "json" };
 
 const thisPckgTxt = await Deno.readTextFile("this-package.json");
 const thisPckg = JSON.parse(thisPckgTxt);
-const thisVersion = thisPckg["dist-tags"].latest.version;
+const thisVersion = thisPckg["dist-tags"].latest;
 
 const tablerPckgTxt = await Deno.readTextFile("tabler-package.json");
 const tablerPckg = JSON.parse(tablerPckgTxt);
-const tablerVersion = tablerPckg["dist-tags"].latest.version;
+const tablerVersion = tablerPckg["dist-tags"].latest;
 
 const encoder = new TextEncoder();
 
