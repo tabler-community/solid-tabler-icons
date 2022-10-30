@@ -1,26 +1,45 @@
 #!/bin/sh
+i=0
+n=11
 
-# 0) cd to root of this repository
+echo "[STEP $i/$n] cd to root of this repository"
 cd "$(dirname "$0")/.."
 
-# 1) get tabler-icons repository
+echo "[STEP $(((i+=1)))/$n] clone tabler-icons git repository"
 git clone https://github.com/tabler/tabler-icons.git
 
-# 2) copy icons-react files
+echo "[STEP $(((i+=1)))/$n] create directory 'lib'"
 mkdir -p lib
+
+echo "[STEP $(((i+=1)))/$n] copy files from 'tabler-icons/icons-react/.' to 'lib'"
 cp --recursive --force tabler-icons/icons-react/. lib
 
-# 3) refactor files for usage with solid
+echo "[STEP $(((i+=1)))/$n] cd into 'lib/icons-js'"
 cd lib/icons-js
+
+echo "[STEP $(((i+=1)))/$n] comment out all imports in react files"
 grep -l 'from "react"' *.js | xargs sed -i 's/import/\/\/import/g'
 
+echo "[STEP $(((i+=1)))/$n] change file extention to '.jsx'"
+for f in *.js; do
+   mv -f "$f" "${f%.js}.jsx"
+done
+
+echo "[STEP $(((i+=1)))/$n] cd back into 'lib'"
 cd ..
+
+echo "[STEP $(((i+=1)))/$n] replace types in 'index.d.ts'"
 sed -i 's/react/solid-js/g' index.d.ts
 sed -i 's/SVGAttributes/JSX.SvgSVGAttributes/g' index.d.ts
 sed -i 's/FC/Component/g' index.d.ts
+sed -i 's/Component, JSX.SvgSVGAttributes/Component, JSX/g' index.d.ts
 sed -i 's/strokeWidth/stroke-width/g' index.d.ts
 
-cd "$(dirname "$0")/.."
+echo "[STEP $(((i+=1)))/$n] cd back into '/'"
+cd ..
 
-# 4) update package version to match with tabler-icons
+echo "[STEP $(((i+=1)))/$n] update package version to match with tabler-icons"
 deno run --allow-read --allow-write build/script.ts
+
+echo "[STEP $(((i+=1)))/$n] remove unused files (./tabler-icons)"
+rm -rf tabler-icons

@@ -3,7 +3,7 @@ import pckg from "../package.json" assert { type: "json" };
 const tablerPckgTxt = await Deno.readTextFile("tabler-icons/package.json");
 const tablerPckg = JSON.parse(tablerPckgTxt);
 
-console.info(`tablerPckg.version: ${tablerPckg.version}`);
+console.info(`INFO: tablerPckg.version: ${tablerPckg.version}`);
 
 pckg.version = tablerPckg.version;
 
